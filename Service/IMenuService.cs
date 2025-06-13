@@ -6,7 +6,5 @@ namespace SampleProject.Service
     public interface IMenuService
     {
         Task<decimal> Calculate(List<OrderItems> menus);
-
-        Task<List<Menu>> GetMenus();
     }
 }
