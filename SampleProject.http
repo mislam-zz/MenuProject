@@ -1,0 +1,24 @@
+@SampleProject_HostAddress = http://localhost:5231
+
+GET {{SampleProject_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+POST {{SampleProject_HostAddress}}/Menu/calculate
+Content-Type: application/json
+[
+    {
+      "menuItemId": 1,
+      "modifierIds": [
+        101,
+        102
+      ]
+    },
+    {
+      "menuItemId": 3,
+      "modifierIds": [
+        301
+      ]
+    }
+  ]
