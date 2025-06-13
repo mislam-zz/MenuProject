@@ -27,12 +27,12 @@ namespace SampleProject.Controllers
             }
             if (orderItems != null)
             {
-                total = menuService.Calculate(convertToMenuItem(convertToMenu(orderItems)));
+                total = menuService.Calculate(ConvertToMenuItem(ConvertToMenu(orderItems)));
             }
             return Ok(total);
         }
 
-        private List<OrderItems> convertToMenuItem(List<Menu> menus)
+        private List<OrderItems> ConvertToMenuItem(List<Menu> menus)
         {
             return menus.Select(menu => new OrderItems
             {
@@ -41,7 +41,7 @@ namespace SampleProject.Controllers
             }).ToList();
         }
 
-        private List<Menu> convertToMenu(List<OrderItems> menus)
+        private List<Menu> ConvertToMenu(List<OrderItems> menus)
         {
             return menus.Select(item => new Menu
             {
