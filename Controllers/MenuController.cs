@@ -18,7 +18,7 @@ namespace SampleProject.Controllers
         }
 
         [HttpPost("calculate")]
-        public IActionResult Calculate([FromBody] List<OrderItems> orderItems)
+        public async Task<IActionResult> Calculate([FromBody] List<OrderItems> orderItems)
         {
             var total = default(decimal); ;
             if (orderItems == null || !orderItems.Any())
@@ -27,7 +27,7 @@ namespace SampleProject.Controllers
             }
             if (orderItems != null)
             {
-                total = menuService.Calculate(orderItems);
+                total = await menuService.Calculate(orderItems);
             }
             return Ok(total);
         }

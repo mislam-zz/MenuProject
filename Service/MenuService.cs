@@ -12,23 +12,29 @@ namespace SampleProject.Service
         public MenuService()
         { }
 
-        public decimal Calculate(List<OrderItems> menus)
+        public async Task<decimal> Calculate(List<OrderItems> orderItems)
         {
-            var total = menus.Sum(item =>
+            var total = 0m;
+
+            foreach (var item in orderItems)
             {
-                // Assuming we have a method to get the menu by ID and its modifiers
-                var menu = GetMenuById(item.MenuItemId);
-                if (menu == null) return 0;
+                var menu = await GetMenuById(item.MenuItemId);
+                if (menu == null)
+                {
+                    continue; // Skip if menu item not found
+                }
                 var basePrice = menu.BasePrice;
-                var modifierPrice = item.ModifierIds.Sum(modifierId =>
-                    menu.Modifiers.FirstOrDefault(m => m.Id == modifierId)?.Price ?? 0);
-                return basePrice + modifierPrice;
-            });
+                var modifiersTotal = menu.Modifiers
+                    .Where(modifier => item.ModifierIds.Contains(modifier.Id))
+                    .Sum(modifier => modifier.Price);
+
+                total += basePrice + modifiersTotal;
+            }
 
             return total;
         }
 
-        public List<Menu> GetMenus()
+        public Task<List<Menu>> GetMenus()
         {
             // Logic to retrieve all menus
             var menus = JsonSerializer.Deserialize<List<Menu>>(
@@ -36,14 +42,14 @@ namespace SampleProject.Service
                 new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new JsonStringEnumConverter() } }
             );
 
-            return menus != null && menus.Count > 0 ? menus : new List<Menu>(); 
+            return menus != null && menus.Count > 0 ? Task.FromResult(menus) : Task.FromResult(new List<Menu>());
         }
 
-        private Menu? GetMenuById(int menuId)
+        private async Task<Menu?> GetMenuById(int menuId)
         {
-            var menus = GetMenus();
+            var menus = await GetMenus();
             var menu = menus.FirstOrDefault(m => m.Id == menuId);
-            return menu ?? null; 
+            return menu;
         }
     }
 }
