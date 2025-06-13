@@ -27,27 +27,9 @@ namespace SampleProject.Controllers
             }
             if (orderItems != null)
             {
-                total = menuService.Calculate(ConvertToMenuItem(ConvertToMenu(orderItems)));
+                total = menuService.Calculate(orderItems);
             }
             return Ok(total);
-        }
-
-        private List<OrderItems> ConvertToMenuItem(List<Menu> menus)
-        {
-            return menus.Select(menu => new OrderItems
-            {
-                MenuItemId = menu.Id,
-                ModifierIds = menu.Modifiers.Select(modifier => modifier.Id).ToList()
-            }).ToList();
-        }
-
-        private List<Menu> ConvertToMenu(List<OrderItems> menus)
-        {
-            return menus.Select(item => new Menu
-            {
-                Id = item.MenuItemId,
-                Modifiers = item.ModifierIds.Select(modifierId => new Modifier { Id = modifierId }).ToList()
-            }).ToList();
         }
     }
 }
