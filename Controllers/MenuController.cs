@@ -8,7 +8,7 @@ namespace SampleProject.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class MenuController
+    public class MenuController : ControllerBase
     {
         private readonly IMenuService menuService;
 
@@ -18,18 +18,18 @@ namespace SampleProject.Controllers
         }
 
         [HttpPost("calculate")]
-        public async Task<decimal> Calculate([FromBody] List<OrderItems> orderItems)
+        public IActionResult Calculate([FromBody] List<OrderItems> orderItems)
         {
             var total = default(decimal); ;
             if (orderItems == null || !orderItems.Any())
             {
-                //return NotFound(); // Fixed the issue by replacing the incorrect usage of NotFoundResult with NotFound().
+                return NotFound("Not found"); // Fixed the issue by replacing the incorrect usage of NotFoundResult with NotFound().
             }
             if (orderItems != null)
             {
                 total = menuService.CalculateInternal(convertToMenuItem(convertToMenu(orderItems)));
             }
-            return total;
+            return Ok(total);
         }
 
         private List<OrderItems> convertToMenuItem(List<Menu> menus)
