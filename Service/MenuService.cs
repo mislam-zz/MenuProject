@@ -12,7 +12,7 @@ namespace SampleProject.Service
         public MenuService()
         { }
 
-        public decimal CalculateInternal(List<OrderItems> menus)
+        public decimal Calculate(List<OrderItems> menus)
         {
             var total = menus.Sum(item =>
             {
@@ -28,11 +28,6 @@ namespace SampleProject.Service
             return total;
         }
 
-        private decimal Calculate(List<OrderItems> menus)
-        {
-            return Calculate(menus);
-        }
-
         public List<Menu> GetMenus()
         {
             // Logic to retrieve all menus
@@ -41,14 +36,14 @@ namespace SampleProject.Service
                 new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new JsonStringEnumConverter() } }
             );
 
-            return menus != null && menus.Count > 0 ? menus : new List<Menu>(); // Return an empty list if deserialization fails
+            return menus != null && menus.Count > 0 ? menus : new List<Menu>(); 
         }
 
         private Menu? GetMenuById(int menuId)
         {
             var menus = GetMenus();
             var menu = menus.FirstOrDefault(m => m.Id == menuId);
-            return menu ?? null; // Return null if no menu found with the given ID
+            return menu ?? null; 
         }
     }
 }

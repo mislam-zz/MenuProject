@@ -23,11 +23,11 @@ namespace SampleProject.Controllers
             var total = default(decimal); ;
             if (orderItems == null || !orderItems.Any())
             {
-                return NotFound("Not found"); // Fixed the issue by replacing the incorrect usage of NotFoundResult with NotFound().
+                return NotFound("Not found");
             }
             if (orderItems != null)
             {
-                total = menuService.CalculateInternal(convertToMenuItem(convertToMenu(orderItems)));
+                total = menuService.Calculate(convertToMenuItem(convertToMenu(orderItems)));
             }
             return Ok(total);
         }

@@ -5,7 +5,7 @@ namespace SampleProject.Service
 {
     public interface IMenuService
     {
-        decimal CalculateInternal(List<OrderItems> menus);
+        decimal Calculate(List<OrderItems> menus);
 
         List<Menu> GetMenus();
     }

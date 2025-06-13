@@ -1,10 +1,5 @@
 @SampleProject_HostAddress = http://localhost:5231
 
-GET {{SampleProject_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
-
 POST {{SampleProject_HostAddress}}/Menu/calculate
 Content-Type: application/json
 [
